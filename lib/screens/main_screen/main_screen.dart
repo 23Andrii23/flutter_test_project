@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_project/screens/main_screen/main_screen_controller.dart';
+import 'package:get/get.dart';
 
 /// The home screen widget.
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends GetView<MainScreenController> {
   /// Creates a [HomeScreen] widget.
   const HomeScreen({super.key});
 
@@ -14,8 +16,14 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Image.asset('assets/images/image-1.jpg'),
-          Image.asset('assets/images/image-2.jpg'),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: controller.image1,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: controller.image2,
+          ),
         ],
       ),
     );
