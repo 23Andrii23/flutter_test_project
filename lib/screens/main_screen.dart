@@ -12,8 +12,11 @@ class HomeScreen extends StatelessWidget {
         title: const Text('Home Screen'),
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
-      body: const Center(
-        child: Text('Home Screen'),
+      body: Column(
+        children: [
+          Image.asset('assets/images/image-1.jpg'),
+          Image.asset('assets/images/image-2.jpg'),
+        ],
       ),
     );
   }
