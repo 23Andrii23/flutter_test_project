@@ -1,5 +1,9 @@
 import 'dart:async';
+
+import 'package:exif/exif.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter_test_project/models/image_info_model.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart' as path;
 
@@ -8,8 +12,8 @@ class MainScreenController extends GetxController {
   final _image1 = Image.asset('assets/images/image-1.jpg');
   final _image2 = Image.asset('assets/images/image-2.jpg');
   final _isImageLoading = false.obs;
-  ImageInfo? _imageInfo1;
-  ImageInfo? _imageInfo2;
+  ImageInfoModel? _imageInfoModelOne;
+  ImageInfoModel? _imageInfoModelTwo;
 
   /// Returns the first image.
   Image get image1 => _image1;
@@ -17,14 +21,14 @@ class MainScreenController extends GetxController {
   /// Returns the second image.
   Image get image2 => _image2;
 
-  /// Returns the first image information.
-  ImageInfo? get imageInfo1 => _imageInfo1;
-
-  /// Returns the second image information.
-  ImageInfo? get imageInfo2 => _imageInfo2;
-
   /// Returns the loading state of the images.
   bool get isImageLoading => _isImageLoading.value;
+
+  /// Returns the information model of the first image.
+  ImageInfoModel? get imageInfoOne => _imageInfoModelOne;
+
+  /// Returns the information model of the second image.
+  ImageInfoModel? get imageInfoTwo => _imageInfoModelTwo;
 
   @override
   void onInit() {
@@ -35,10 +39,77 @@ class MainScreenController extends GetxController {
 
   Future<void> _initValue() async {
     _isImageLoading.value = true;
-    _imageInfo1 = await _getImageInfo(_image1);
-    _imageInfo2 = await _getImageInfo(_image2);
-    debugPrint('imageInfo1: ${_imageInfo1?.image}');
+    final imageInfo1 = await _getImageInfo(_image1);
+    final imageInfo2 = await _getImageInfo(_image2);
+    final latitudeOne = await _getExifInfo(
+      coordinateType: CoordinateType.latitude,
+      image: 'assets/images/image-1.jpg',
+    );
+    final longitudeOne = await _getExifInfo(
+      coordinateType: CoordinateType.longitude,
+      image: 'assets/images/image-1.jpg',
+    );
+    final latitudeTwo = await _getExifInfo(
+      coordinateType: CoordinateType.latitude,
+      image: 'assets/images/image-2.jpg',
+    );
+    final longitudeTwo = await _getExifInfo(
+      coordinateType: CoordinateType.longitude,
+      image: 'assets/images/image-2.jpg',
+    );
+    _imageInfoModelOne = ImageInfoModel(
+      name: imageInfo1.debugLabel ?? '',
+      width: imageInfo1.image.width,
+      height: imageInfo1.image.height,
+      size: imageSize(imageInfo1),
+      format: imageInfo1.debugLabel?.split('.').last ?? '',
+      latitude: latitudeOne,
+      longitude: longitudeOne,
+    );
+
+    _imageInfoModelTwo = ImageInfoModel(
+      name: imageInfo2.debugLabel ?? '',
+      width: imageInfo2.image.width,
+      height: imageInfo2.image.height,
+      size: imageSize(imageInfo2),
+      format: imageInfo2.debugLabel?.split('.').last ?? '',
+      latitude: latitudeTwo,
+      longitude: longitudeTwo,
+    );
+
     _isImageLoading.value = false;
+  }
+
+  Future<String> _getExifInfo({
+    required CoordinateType coordinateType,
+    required String image,
+  }) async {
+    final data = await rootBundle.load(image);
+    final bytes = data.buffer.asUint8List();
+    final exifData = await readExifFromBytes(bytes);
+    if (coordinateType == CoordinateType.latitude) {
+      final latitude = exifData['GPS GPSLatitude']?.values.toList() ?? [];
+
+      if (latitude.isEmpty) return '';
+
+      final coordinates = _formatedCoordinate(latitude);
+      final latitudeRef = exifData['GPS GPSLatitudeRef'];
+      return '$coordinates $latitudeRef';
+    } else {
+      final longitude = exifData['GPS GPSLongitude']?.values.toList() ?? [];
+      if (longitude.isEmpty) return '';
+
+      final coordinates = _formatedCoordinate(longitude);
+      final longitudeRef = exifData['GPS GPSLongitudeRef'];
+      return '$coordinates $longitudeRef';
+    }
+  }
+
+  String _formatedCoordinate(List<dynamic> exifValue) {
+    final degrees = exifValue[0];
+    final minutes = exifValue[1];
+    final seconds = exifValue[2];
+    return '$degrees° $minutes\' $seconds"';
   }
 
   /// Returns the size of the image.
@@ -71,4 +142,13 @@ class MainScreenController extends GetxController {
   double _bytesToMB(int bytes) {
     return bytes / (1024 * 1024);
   }
+}
+
+/// Enum for the coordinate type.
+enum CoordinateType {
+  /// Latitude.
+  latitude,
+
+  /// Longitude.
+  longitude,
 }
