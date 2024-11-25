@@ -27,6 +27,7 @@ class MainScreenController extends GetxController {
   /// Returns the loading state of the images.
   bool get isImageLoading => _isImageLoading.value;
 
+  /// Sets the loading state of the images.
   set isImageLoading(bool value) => _isImageLoading.value = value;
 
   /// Returns the information model of the first image.
