@@ -1,17 +1,33 @@
-# flutter_test_project
+# Image Comparison App
 
-A new Flutter project.
+A Flutter application that allows you to compare two images and display their properties side by side.
+
+## Features
+
+- Compare image dimensions (width and height)
+- Show file sizes
+- Display image formats
+- Extract GPS coordinates (if available)
+- Show dominant colors
+- Visual size comparison with color indicators
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### Prerequisites
 
-A few resources to get you started if this is your first Flutter project:
+- Flutter installed on your machine
+- Git for cloning the repository
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Installation
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# flutter_test_project
+1. Clone the repository
+git clone https://github.com/23Andrii23/flutter_test_project.git
+2. Navigate to the project directory
+3. Install dependencies
+```bash
+flutter pub get
+```
+4.Run the app 
+```bash
+flutter run
+```
