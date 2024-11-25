@@ -10,17 +10,19 @@ import 'package:path/path.dart' as path;
 
 /// [MainScreenController] manages the state of the MainScreen widget.
 class MainScreenController extends GetxController {
-  final _image1 = Image.asset('assets/images/image-1.jpg');
-  final _image2 = Image.asset('assets/images/image-2.jpg');
+  final _imageOnePath = 'assets/images/image-1.jpg';
+  final _imageTwoPath = 'assets/images/image-2.jpg';
+  final _imageOne = Image.asset('assets/images/image-1.jpg');
+  final _imageTwo = Image.asset('assets/images/image-2.jpg');
   final _isImageLoading = false.obs;
   ImageInfoModel? _imageInfoModelOne;
   ImageInfoModel? _imageInfoModelTwo;
 
   /// Returns the first image.
-  Image get image1 => _image1;
+  Image get image1 => _imageOne;
 
   /// Returns the second image.
-  Image get image2 => _image2;
+  Image get image2 => _imageTwo;
 
   /// Returns the loading state of the images.
   bool get isImageLoading => _isImageLoading.value;
@@ -31,6 +33,12 @@ class MainScreenController extends GetxController {
   /// Returns the information model of the second image.
   ImageInfoModel? get imageInfoTwo => _imageInfoModelTwo;
 
+  ///Image One Path
+  String get imageOnePath => _imageOnePath;
+
+  ///Image Two Path
+  String get imageTwoPath => _imageTwoPath;
+
   @override
   void onInit() {
     super.onInit();
@@ -40,10 +48,10 @@ class MainScreenController extends GetxController {
 
   Future<void> _initValue() async {
     _isImageLoading.value = true;
-    final imageInfo1 = await _getImageInfo(_image1);
-    final imageInfo2 = await _getImageInfo(_image2);
-    final colorOne = await _getDominantColor(_image1.image);
-    final colorTwo = await _getDominantColor(_image2.image);
+    final imageInfo1 = await _getImageInfo(_imageOne);
+    final imageInfo2 = await _getImageInfo(_imageTwo);
+    final colorOne = await _getDominantColor(_imageOne.image);
+    final colorTwo = await _getDominantColor(_imageTwo.image);
     final latitudeOne = await _getExifInfo(
       coordinateType: CoordinateType.latitude,
       image: 'assets/images/image-1.jpg',
@@ -102,14 +110,14 @@ class MainScreenController extends GetxController {
     if (coordinateType == CoordinateType.latitude) {
       final latitude = exifData['GPS GPSLatitude']?.values.toList() ?? [];
 
-      if (latitude.isEmpty) return '';
+      if (latitude.isEmpty) return '-';
 
       final coordinates = _formatedCoordinate(latitude);
       final latitudeRef = exifData['GPS GPSLatitudeRef'];
       return '$coordinates $latitudeRef';
     } else {
       final longitude = exifData['GPS GPSLongitude']?.values.toList() ?? [];
-      if (longitude.isEmpty) return '';
+      if (longitude.isEmpty) return '-';
 
       final coordinates = _formatedCoordinate(longitude);
       final longitudeRef = exifData['GPS GPSLongitudeRef'];

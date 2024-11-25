@@ -25,14 +25,32 @@ class HomeScreen extends GetView<MainScreenController> {
                       horizontal: 16,
                       vertical: 8,
                     ),
-                    child: controller.image1,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.asset(
+                                controller.imageOnePath,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.asset(
+                                controller.imageTwoPath,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    child: controller.image2,
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -114,10 +132,10 @@ class HomeScreen extends GetView<MainScreenController> {
           children: [
             const CustomTableCell('Longitude:'),
             CustomTableCell(
-              controller.imageInfoOne?.longitude ?? '',
+              controller.imageInfoOne?.longitude ?? '-',
             ),
             CustomTableCell(
-              controller.imageInfoTwo?.longitude ?? '',
+              controller.imageInfoTwo?.longitude ?? '-',
             ),
           ],
         ),
