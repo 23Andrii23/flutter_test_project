@@ -42,8 +42,8 @@ class MainScreenController extends GetxController {
     _isImageLoading.value = true;
     final imageInfo1 = await _getImageInfo(_image1);
     final imageInfo2 = await _getImageInfo(_image2);
-    final colorOne = await _getImagePalette(_image1.image);
-    final colorTwo = await _getImagePalette(_image2.image);
+    final colorOne = await _getDominantColor(_image1.image);
+    final colorTwo = await _getDominantColor(_image2.image);
     final latitudeOne = await _getExifInfo(
       coordinateType: CoordinateType.latitude,
       image: 'assets/images/image-1.jpg',
@@ -85,7 +85,7 @@ class MainScreenController extends GetxController {
     _isImageLoading.value = false;
   }
 
-  Future<Color> _getImagePalette(ImageProvider imageProvider) async {
+  Future<Color> _getDominantColor(ImageProvider imageProvider) async {
     final paletteGenerator =
         await PaletteGenerator.fromImageProvider(imageProvider);
 
