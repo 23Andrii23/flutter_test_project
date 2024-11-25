@@ -63,43 +63,88 @@ class HomeScreen extends GetView<MainScreenController> {
           children: [
             const CustomTableCell('Name:'),
             CustomTableCell(
-              controller.getFileName(controller.imageInfo1?.debugLabel ?? ''),
+              controller.getFileName(controller.imageInfoOne?.name ?? ''),
             ),
             CustomTableCell(
-              controller.getFileName(controller.imageInfo2?.debugLabel ?? ''),
+              controller.getFileName(controller.imageInfoTwo?.name ?? ''),
             ),
           ],
         ),
         TableRow(
           children: [
             const CustomTableCell('Width:'),
-            CustomTableCell('${controller.imageInfo1?.image.width}px'),
-            CustomTableCell('${controller.imageInfo2?.image.width}px'),
+            CustomTableCell('${controller.imageInfoOne?.width}px'),
+            CustomTableCell('${controller.imageInfoTwo?.width}px'),
             // ),
           ],
         ),
         TableRow(
           children: [
             const CustomTableCell('Height:'),
-            CustomTableCell('${controller.imageInfo1?.image.height}px'),
-            CustomTableCell('${controller.imageInfo2?.image.height}px'),
+            CustomTableCell('${controller.imageInfoOne?.height}px'),
+            CustomTableCell('${controller.imageInfoTwo?.height}px'),
           ],
         ),
         TableRow(
           children: [
             const CustomTableCell('Size:'),
-            CustomTableCell(controller.imageSize(controller.imageInfo1)),
-            CustomTableCell(controller.imageSize(controller.imageInfo2)),
+            CustomTableCell(controller.imageInfoOne?.size ?? ''),
+            CustomTableCell(controller.imageInfoTwo?.size ?? ''),
           ],
         ),
         TableRow(
           children: [
             const CustomTableCell('Format:'),
+            CustomTableCell(controller.imageInfoOne?.format ?? ''),
+            CustomTableCell(controller.imageInfoTwo?.format ?? ''),
+          ],
+        ),
+        TableRow(
+          children: [
+            const CustomTableCell('Latitude:'),
             CustomTableCell(
-              controller.imageInfo1?.debugLabel?.split('.').last ?? '',
+              controller.imageInfoOne?.latitude ?? '',
             ),
             CustomTableCell(
-              controller.imageInfo2?.debugLabel?.split('.').last ?? '',
+              controller.imageInfoTwo?.latitude ?? '',
+            ),
+          ],
+        ),
+        TableRow(
+          children: [
+            const CustomTableCell('Longitude:'),
+            CustomTableCell(
+              controller.imageInfoOne?.longitude ?? '',
+            ),
+            CustomTableCell(
+              controller.imageInfoTwo?.longitude ?? '',
+            ),
+          ],
+        ),
+        TableRow(
+          children: [
+            const CustomTableCell('Color:'),
+            TableCell(
+              verticalAlignment: TableCellVerticalAlignment.middle,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  width: 50,
+                  height: 25,
+                  color: controller.imageInfoOne?.color,
+                ),
+              ),
+            ),
+            TableCell(
+              verticalAlignment: TableCellVerticalAlignment.middle,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  width: 50,
+                  height: 25,
+                  color: controller.imageInfoTwo?.color,
+                ),
+              ),
             ),
           ],
         ),
