@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_test_project/models/image_info_model.dart';
 import 'package:get/get.dart';
+import 'package:palette_generator/palette_generator.dart';
 import 'package:path/path.dart' as path;
 
 /// [MainScreenController] manages the state of the MainScreen widget.
@@ -41,6 +42,8 @@ class MainScreenController extends GetxController {
     _isImageLoading.value = true;
     final imageInfo1 = await _getImageInfo(_image1);
     final imageInfo2 = await _getImageInfo(_image2);
+    final colorOne = await _getImagePalette(_image1.image);
+    final colorTwo = await _getImagePalette(_image2.image);
     final latitudeOne = await _getExifInfo(
       coordinateType: CoordinateType.latitude,
       image: 'assets/images/image-1.jpg',
@@ -65,6 +68,7 @@ class MainScreenController extends GetxController {
       format: imageInfo1.debugLabel?.split('.').last ?? '',
       latitude: latitudeOne,
       longitude: longitudeOne,
+      color: colorOne,
     );
 
     _imageInfoModelTwo = ImageInfoModel(
@@ -75,9 +79,17 @@ class MainScreenController extends GetxController {
       format: imageInfo2.debugLabel?.split('.').last ?? '',
       latitude: latitudeTwo,
       longitude: longitudeTwo,
+      color: colorTwo,
     );
 
     _isImageLoading.value = false;
+  }
+
+  Future<Color> _getImagePalette(ImageProvider imageProvider) async {
+    final paletteGenerator =
+        await PaletteGenerator.fromImageProvider(imageProvider);
+
+    return paletteGenerator.dominantColor?.color ?? Colors.transparent;
   }
 
   Future<String> _getExifInfo({

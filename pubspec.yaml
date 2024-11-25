@@ -14,7 +14,9 @@ dependencies:
     sdk: flutter
 
   get: ^4.6.6
+  palette_generator: ^0.3.3+5
   path: ^1.9.0
+
 
 
 

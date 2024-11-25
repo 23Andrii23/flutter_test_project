@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 /// All image information model
 class ImageInfoModel {
   /// Image name
@@ -21,6 +23,9 @@ class ImageInfoModel {
   /// Image latitude
   final String? latitude;
 
+  /// Image color
+  final Color? color;
+
   /// Image information model
   ImageInfoModel({
     required this.name,
@@ -30,5 +35,6 @@ class ImageInfoModel {
     required this.format,
     required this.longitude,
     required this.latitude,
+    this.color,
   });
 }

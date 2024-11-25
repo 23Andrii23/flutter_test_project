@@ -121,6 +121,33 @@ class HomeScreen extends GetView<MainScreenController> {
             ),
           ],
         ),
+        TableRow(
+          children: [
+            const CustomTableCell('Color:'),
+            TableCell(
+              verticalAlignment: TableCellVerticalAlignment.middle,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  width: 50,
+                  height: 25,
+                  color: controller.imageInfoOne?.color,
+                ),
+              ),
+            ),
+            TableCell(
+              verticalAlignment: TableCellVerticalAlignment.middle,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  width: 50,
+                  height: 25,
+                  color: controller.imageInfoTwo?.color,
+                ),
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }
