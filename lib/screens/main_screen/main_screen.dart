@@ -12,7 +12,7 @@ class HomeScreen extends GetView<MainScreenController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home Screen'),
+        title: const Text('Home Screen', style: TextStyle(color: Colors.white)),
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       body: Obx(

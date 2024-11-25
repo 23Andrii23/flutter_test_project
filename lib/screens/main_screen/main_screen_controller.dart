@@ -72,7 +72,7 @@ class MainScreenController extends GetxController {
       name: imageInfo1.debugLabel ?? '',
       width: imageInfo1.image.width,
       height: imageInfo1.image.height,
-      size: imageSize(imageInfo1),
+      size: _imageSize(imageInfo1),
       format: imageInfo1.debugLabel?.split('.').last ?? '',
       latitude: latitudeOne,
       longitude: longitudeOne,
@@ -83,7 +83,7 @@ class MainScreenController extends GetxController {
       name: imageInfo2.debugLabel ?? '',
       width: imageInfo2.image.width,
       height: imageInfo2.image.height,
-      size: imageSize(imageInfo2),
+      size: _imageSize(imageInfo2),
       format: imageInfo2.debugLabel?.split('.').last ?? '',
       latitude: latitudeTwo,
       longitude: longitudeTwo,
@@ -133,7 +133,7 @@ class MainScreenController extends GetxController {
   }
 
   /// Returns the size of the image.
-  String imageSize(ImageInfo? imageInfo) {
+  String _imageSize(ImageInfo? imageInfo) {
     if (imageInfo != null) {
       final size = imageInfo.sizeBytes;
       return '${_bytesToMB(size).toStringAsFixed(2)} MB';
