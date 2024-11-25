@@ -27,6 +27,8 @@ class MainScreenController extends GetxController {
   /// Returns the loading state of the images.
   bool get isImageLoading => _isImageLoading.value;
 
+  set isImageLoading(bool value) => _isImageLoading.value = value;
+
   /// Returns the information model of the first image.
   ImageInfoModel? get imageInfoOne => _imageInfoModelOne;
 
@@ -52,6 +54,7 @@ class MainScreenController extends GetxController {
     final imageInfo2 = await _getImageInfo(_imageTwo);
     final colorOne = await _getDominantColor(_imageOne.image);
     final colorTwo = await _getDominantColor(_imageTwo.image);
+
     final latitudeOne = await _getExifInfo(
       coordinateType: CoordinateType.latitude,
       image: 'assets/images/image-1.jpg',
@@ -165,7 +168,6 @@ class MainScreenController extends GetxController {
 
   /// Returns if the first number is bigger than the second.
   bool? isBiggerThenAnother(int? first, int? second) {
-    debugPrint('first: $first, second: $second');
     if (first != null && second != null) {
       return first > second;
     }
