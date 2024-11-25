@@ -39,7 +39,6 @@ void main() {
       ),
     );
 
-    // await tester.pump();
     await tester.pump();
 
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
