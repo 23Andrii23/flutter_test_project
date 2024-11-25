@@ -20,6 +20,15 @@ class HomeScreen extends GetView<MainScreenController> {
             ? const Center(child: CircularProgressIndicator())
             : ListView(
                 children: [
+                  const Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Center(
+                      child: Text(
+                        'Image Comparison',
+                        style: TextStyle(fontSize: 24),
+                      ),
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
@@ -28,32 +37,51 @@ class HomeScreen extends GetView<MainScreenController> {
                     child: Row(
                       children: [
                         Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.asset(
-                                controller.imageOnePath,
+                          child: Column(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.asset(
+                                  controller.imageOnePath,
+                                ),
                               ),
-                            ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: Text(
+                                  controller.getFileName(
+                                    controller.imageInfoOne?.name ?? '',
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
+                        const SizedBox(width: 16),
                         Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.asset(
-                                controller.imageTwoPath,
+                          child: Column(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.asset(
+                                  controller.imageTwoPath,
+                                ),
                               ),
-                            ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: Text(
+                                  controller.getFileName(
+                                    controller.imageInfoTwo?.name ?? '',
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: _buildTable(),
                   ),
                 ],
