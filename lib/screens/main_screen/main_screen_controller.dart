@@ -177,7 +177,6 @@ class MainScreenController extends GetxController {
     if (first != null && second != null) {
       final firstNumber = double.parse(first.replaceAll(" MB", ""));
       final secondNumber = double.parse(second.replaceAll(" MB", ""));
-      debugPrint('firstNumber: $firstNumber, secondNumber: $secondNumber');
       return firstNumber > secondNumber;
     }
     return false;
