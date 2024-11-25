@@ -12,7 +12,7 @@ class HomeScreen extends GetView<MainScreenController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home Screen'),
+        title: const Text('Home Screen', style: TextStyle(color: Colors.white)),
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       body: Obx(
@@ -25,14 +25,32 @@ class HomeScreen extends GetView<MainScreenController> {
                       horizontal: 16,
                       vertical: 8,
                     ),
-                    child: controller.image1,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.asset(
+                                controller.imageOnePath,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.asset(
+                                controller.imageTwoPath,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    child: controller.image2,
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -73,23 +91,59 @@ class HomeScreen extends GetView<MainScreenController> {
         TableRow(
           children: [
             const CustomTableCell('Width:'),
-            CustomTableCell('${controller.imageInfoOne?.width}px'),
-            CustomTableCell('${controller.imageInfoTwo?.width}px'),
+            CustomTableCell(
+              '${controller.imageInfoOne?.width}px',
+              isBiggerThenAnother: controller.isBiggerThenAnother(
+                controller.imageInfoOne?.width,
+                controller.imageInfoTwo?.width,
+              ),
+            ),
+            CustomTableCell(
+              '${controller.imageInfoTwo?.width}px',
+              isBiggerThenAnother: controller.isBiggerThenAnother(
+                controller.imageInfoTwo?.width,
+                controller.imageInfoOne?.width,
+              ),
+            ),
             // ),
           ],
         ),
         TableRow(
           children: [
             const CustomTableCell('Height:'),
-            CustomTableCell('${controller.imageInfoOne?.height}px'),
-            CustomTableCell('${controller.imageInfoTwo?.height}px'),
+            CustomTableCell(
+              '${controller.imageInfoOne?.height}px',
+              isBiggerThenAnother: controller.isBiggerThenAnother(
+                controller.imageInfoOne?.height,
+                controller.imageInfoTwo?.height,
+              ),
+            ),
+            CustomTableCell(
+              '${controller.imageInfoTwo?.height}px',
+              isBiggerThenAnother: controller.isBiggerThenAnother(
+                controller.imageInfoTwo?.height,
+                controller.imageInfoOne?.height,
+              ),
+            ),
           ],
         ),
         TableRow(
           children: [
             const CustomTableCell('Size:'),
-            CustomTableCell(controller.imageInfoOne?.size ?? ''),
-            CustomTableCell(controller.imageInfoTwo?.size ?? ''),
+            CustomTableCell(
+              controller.imageInfoOne?.size ?? '',
+              isBiggerThenAnother: controller.isBiggerSize(
+                controller.imageInfoOne?.size,
+                controller.imageInfoTwo?.size,
+              ),
+            ),
+            CustomTableCell(
+              controller.imageInfoTwo?.size ?? '',
+              isBiggerThenAnother: controller.isBiggerSize(
+                controller.imageInfoTwo?.size,
+                controller.imageInfoOne?.size,
+              ),
+            ),
           ],
         ),
         TableRow(
@@ -114,10 +168,10 @@ class HomeScreen extends GetView<MainScreenController> {
           children: [
             const CustomTableCell('Longitude:'),
             CustomTableCell(
-              controller.imageInfoOne?.longitude ?? '',
+              controller.imageInfoOne?.longitude ?? '-',
             ),
             CustomTableCell(
-              controller.imageInfoTwo?.longitude ?? '',
+              controller.imageInfoTwo?.longitude ?? '-',
             ),
           ],
         ),

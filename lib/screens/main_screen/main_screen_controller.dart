@@ -10,17 +10,19 @@ import 'package:path/path.dart' as path;
 
 /// [MainScreenController] manages the state of the MainScreen widget.
 class MainScreenController extends GetxController {
-  final _image1 = Image.asset('assets/images/image-1.jpg');
-  final _image2 = Image.asset('assets/images/image-2.jpg');
+  final _imageOnePath = 'assets/images/image-1.jpg';
+  final _imageTwoPath = 'assets/images/image-2.jpg';
+  final _imageOne = Image.asset('assets/images/image-1.jpg');
+  final _imageTwo = Image.asset('assets/images/image-2.jpg');
   final _isImageLoading = false.obs;
   ImageInfoModel? _imageInfoModelOne;
   ImageInfoModel? _imageInfoModelTwo;
 
   /// Returns the first image.
-  Image get image1 => _image1;
+  Image get image1 => _imageOne;
 
   /// Returns the second image.
-  Image get image2 => _image2;
+  Image get image2 => _imageTwo;
 
   /// Returns the loading state of the images.
   bool get isImageLoading => _isImageLoading.value;
@@ -31,6 +33,12 @@ class MainScreenController extends GetxController {
   /// Returns the information model of the second image.
   ImageInfoModel? get imageInfoTwo => _imageInfoModelTwo;
 
+  ///Image One Path
+  String get imageOnePath => _imageOnePath;
+
+  ///Image Two Path
+  String get imageTwoPath => _imageTwoPath;
+
   @override
   void onInit() {
     super.onInit();
@@ -40,10 +48,10 @@ class MainScreenController extends GetxController {
 
   Future<void> _initValue() async {
     _isImageLoading.value = true;
-    final imageInfo1 = await _getImageInfo(_image1);
-    final imageInfo2 = await _getImageInfo(_image2);
-    final colorOne = await _getDominantColor(_image1.image);
-    final colorTwo = await _getDominantColor(_image2.image);
+    final imageInfo1 = await _getImageInfo(_imageOne);
+    final imageInfo2 = await _getImageInfo(_imageTwo);
+    final colorOne = await _getDominantColor(_imageOne.image);
+    final colorTwo = await _getDominantColor(_imageTwo.image);
     final latitudeOne = await _getExifInfo(
       coordinateType: CoordinateType.latitude,
       image: 'assets/images/image-1.jpg',
@@ -64,7 +72,7 @@ class MainScreenController extends GetxController {
       name: imageInfo1.debugLabel ?? '',
       width: imageInfo1.image.width,
       height: imageInfo1.image.height,
-      size: imageSize(imageInfo1),
+      size: _imageSize(imageInfo1),
       format: imageInfo1.debugLabel?.split('.').last ?? '',
       latitude: latitudeOne,
       longitude: longitudeOne,
@@ -75,7 +83,7 @@ class MainScreenController extends GetxController {
       name: imageInfo2.debugLabel ?? '',
       width: imageInfo2.image.width,
       height: imageInfo2.image.height,
-      size: imageSize(imageInfo2),
+      size: _imageSize(imageInfo2),
       format: imageInfo2.debugLabel?.split('.').last ?? '',
       latitude: latitudeTwo,
       longitude: longitudeTwo,
@@ -102,14 +110,14 @@ class MainScreenController extends GetxController {
     if (coordinateType == CoordinateType.latitude) {
       final latitude = exifData['GPS GPSLatitude']?.values.toList() ?? [];
 
-      if (latitude.isEmpty) return '';
+      if (latitude.isEmpty) return '-';
 
       final coordinates = _formatedCoordinate(latitude);
       final latitudeRef = exifData['GPS GPSLatitudeRef'];
       return '$coordinates $latitudeRef';
     } else {
       final longitude = exifData['GPS GPSLongitude']?.values.toList() ?? [];
-      if (longitude.isEmpty) return '';
+      if (longitude.isEmpty) return '-';
 
       final coordinates = _formatedCoordinate(longitude);
       final longitudeRef = exifData['GPS GPSLongitudeRef'];
@@ -125,7 +133,7 @@ class MainScreenController extends GetxController {
   }
 
   /// Returns the size of the image.
-  String imageSize(ImageInfo? imageInfo) {
+  String _imageSize(ImageInfo? imageInfo) {
     if (imageInfo != null) {
       final size = imageInfo.sizeBytes;
       return '${_bytesToMB(size).toStringAsFixed(2)} MB';
@@ -153,6 +161,25 @@ class MainScreenController extends GetxController {
 
   double _bytesToMB(int bytes) {
     return bytes / (1024 * 1024);
+  }
+
+  /// Returns if the first number is bigger than the second.
+  bool? isBiggerThenAnother(int? first, int? second) {
+    debugPrint('first: $first, second: $second');
+    if (first != null && second != null) {
+      return first > second;
+    }
+    return null;
+  }
+
+  /// Returns if the first image size is bigger than the second one.
+  bool isBiggerSize(String? first, String? second) {
+    if (first != null && second != null) {
+      final firstNumber = double.parse(first.replaceAll(" MB", ""));
+      final secondNumber = double.parse(second.replaceAll(" MB", ""));
+      return firstNumber > secondNumber;
+    }
+    return false;
   }
 }
 

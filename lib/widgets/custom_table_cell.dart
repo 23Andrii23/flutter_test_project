@@ -5,9 +5,13 @@ class CustomTableCell extends StatelessWidget {
   /// Text to display
   final String text;
 
+  /// Flag to check if the text is bigger than another
+  final bool? isBiggerThenAnother;
+
   /// Constructor with [text] and optional [key]
   const CustomTableCell(
     this.text, {
+    this.isBiggerThenAnother,
     super.key,
   });
 
@@ -17,8 +21,16 @@ class CustomTableCell extends StatelessWidget {
       verticalAlignment: TableCellVerticalAlignment.middle,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text(text),
+        child: Text(text, style: TextStyle(color: _textColor())),
       ),
     );
+  }
+
+  Color _textColor() {
+    return switch (isBiggerThenAnother) {
+      true => Colors.green,
+      false => Colors.red,
+      null => Colors.black,
+    };
   }
 }
