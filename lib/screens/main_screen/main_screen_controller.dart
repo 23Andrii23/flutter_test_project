@@ -162,6 +162,26 @@ class MainScreenController extends GetxController {
   double _bytesToMB(int bytes) {
     return bytes / (1024 * 1024);
   }
+
+  /// Returns if the first number is bigger than the second.
+  bool? isBiggerThenAnother(int? first, int? second) {
+    debugPrint('first: $first, second: $second');
+    if (first != null && second != null) {
+      return first > second;
+    }
+    return null;
+  }
+
+  /// Returns if the first image size is bigger than the second one.
+  bool isBiggerSize(String? first, String? second) {
+    if (first != null && second != null) {
+      final firstNumber = double.parse(first.replaceAll(" MB", ""));
+      final secondNumber = double.parse(second.replaceAll(" MB", ""));
+      debugPrint('firstNumber: $firstNumber, secondNumber: $secondNumber');
+      return firstNumber > secondNumber;
+    }
+    return false;
+  }
 }
 
 /// Enum for the coordinate type.

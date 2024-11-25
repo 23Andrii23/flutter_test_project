@@ -91,23 +91,59 @@ class HomeScreen extends GetView<MainScreenController> {
         TableRow(
           children: [
             const CustomTableCell('Width:'),
-            CustomTableCell('${controller.imageInfoOne?.width}px'),
-            CustomTableCell('${controller.imageInfoTwo?.width}px'),
+            CustomTableCell(
+              '${controller.imageInfoOne?.width}px',
+              isBiggerThenAnother: controller.isBiggerThenAnother(
+                controller.imageInfoOne?.width,
+                controller.imageInfoTwo?.width,
+              ),
+            ),
+            CustomTableCell(
+              '${controller.imageInfoTwo?.width}px',
+              isBiggerThenAnother: controller.isBiggerThenAnother(
+                controller.imageInfoTwo?.width,
+                controller.imageInfoOne?.width,
+              ),
+            ),
             // ),
           ],
         ),
         TableRow(
           children: [
             const CustomTableCell('Height:'),
-            CustomTableCell('${controller.imageInfoOne?.height}px'),
-            CustomTableCell('${controller.imageInfoTwo?.height}px'),
+            CustomTableCell(
+              '${controller.imageInfoOne?.height}px',
+              isBiggerThenAnother: controller.isBiggerThenAnother(
+                controller.imageInfoOne?.height,
+                controller.imageInfoTwo?.height,
+              ),
+            ),
+            CustomTableCell(
+              '${controller.imageInfoTwo?.height}px',
+              isBiggerThenAnother: controller.isBiggerThenAnother(
+                controller.imageInfoTwo?.height,
+                controller.imageInfoOne?.height,
+              ),
+            ),
           ],
         ),
         TableRow(
           children: [
             const CustomTableCell('Size:'),
-            CustomTableCell(controller.imageInfoOne?.size ?? ''),
-            CustomTableCell(controller.imageInfoTwo?.size ?? ''),
+            CustomTableCell(
+              controller.imageInfoOne?.size ?? '',
+              isBiggerThenAnother: controller.isBiggerSize(
+                controller.imageInfoOne?.size,
+                controller.imageInfoTwo?.size,
+              ),
+            ),
+            CustomTableCell(
+              controller.imageInfoTwo?.size ?? '',
+              isBiggerThenAnother: controller.isBiggerSize(
+                controller.imageInfoTwo?.size,
+                controller.imageInfoOne?.size,
+              ),
+            ),
           ],
         ),
         TableRow(
